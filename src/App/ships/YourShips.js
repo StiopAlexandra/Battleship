@@ -8,7 +8,7 @@ const MyShips = () => {
     <div className="myShips">
       <h3>Your Ships</h3>
       {ships.map((ship, index) => (
-        <Ship ship={ship} key={index} />
+        <Ship ship={ship} index={index} key={index} />
       ))}
     </div>
   );

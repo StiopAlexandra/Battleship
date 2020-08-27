@@ -1,10 +1,14 @@
 import React from "react";
-
-const Ship = ({ ship }) => {
+import { useSelector } from "react-redux";
+const Ship = ({ ship, index }) => {
+  const currentShip = useSelector((state) => state.currentShip);
+  let color;
+  if (index === currentShip) color = "rgb(80, 81, 82)";
+  else color = "rgb(185, 185, 185)";
   return (
     <div
       style={{
-        backgroundColor: "lightGray",
+        backgroundColor: `${color}`,
         width: `${ship.size * 20}px`,
         height: "20px",
         border: "1px solid gray",
