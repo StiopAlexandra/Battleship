@@ -3,59 +3,84 @@ body {
   margin: 0;
 }
 
-.container {
+#root {
   margin: auto;
   display: flex;
   flex-direction: column;
   width: 100%;
   background: #f8f8f8 0% 0% no-repeat padding-box;
-  opacity: 1;
 }
 
-#root {
+.container1 {
   display: flex;
-  width: 750px;
+  width: 570px;
+  margin-left: 325px;
+}
+
+.container2 {
+  display: flex;
+  width: 570px;
   margin: auto;
 }
 
-.myShips {
+.yourShips {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-right: 30px;
+  margin-right: 35px;
 }
-
+.enemyShips {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 35px;
+}
+.startBoard {
+  display: flex;
+  width: 100%;
+}
 .boxBoard {
-  width: 500px;
-  height: 500px;
+  width: 435px;
+  height: 435px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 5px #00000012;
   border-radius: 20px;
-  opacity: 1;
 }
 
-.board {
-  width: 440px;
-  height: 440px;
+.grid {
+  width: 350px;
+  height: 350px;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
 }
 
 .grid-square {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   box-sizing: border-box;
   border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.row {
+  display: flex;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
 .square-text {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,15 +89,18 @@ body {
 
 header {
   text-align: center;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
+
 footer {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   margin: auto;
   width: 480px;
+  margin-bottom: 20px;
 }
 
 .mouse {
@@ -87,6 +115,18 @@ footer {
   padding-left: 5px;
 }
 
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+button {
+  margin: 25px;
+  width: 65px;
+  height: 40px;
+  border-radius: 5px;
+}
 /* Grid coloring classes */
 
 .active {

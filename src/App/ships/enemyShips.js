@@ -2,11 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Ship from "./Ship";
 
-const YourShips = () => {
-  const ships = useSelector((state) => state.yourShips);
+const EnemyShips = () => {
+  const ships = useSelector((state) => state.enemyShips);
   return (
-    <div className="yourShips">
-      <h3>Your Ships</h3>
+    <div className="enemyShips">
+      <h3>Enemy Ships</h3>
       {ships.map((ship, index) => (
         <Ship ship={ship} index={index} key={index} />
       ))}
@@ -14,4 +14,4 @@ const YourShips = () => {
   );
 };
 
-export default YourShips;
+export default EnemyShips;

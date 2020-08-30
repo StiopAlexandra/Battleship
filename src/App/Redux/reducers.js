@@ -1,7 +1,17 @@
 import { combineReducers } from "redux";
-import { UPDATE_GRID, UPDATE_SHIP } from "./actions";
+import {
+  UPDATE_YOUR_SHIP,
+  UPDATE_ENEMY_SHIP,
+  REMOVE_YOUR_SHIP,
+  SET_ENEMY_SHIP,
+  SET_YOUR_SHIP,
+  START_GAME,
+  RESET_GAME,
+  BOARD_GAME,
+} from "./actions";
+
 const initialState = {
-  shipList: [
+  yourShipsList: [
     {
       name: "Carrier",
       size: 5,
@@ -28,62 +38,142 @@ const initialState = {
       positions: [],
     },
   ],
-  squares: Array(11)
+  enemyShipsList: [
+    {
+      name: "Carrier",
+      size: 5,
+      positions: [],
+    },
+    {
+      name: "Battleship",
+      size: 4,
+      positions: [],
+    },
+    {
+      name: "Destroyer",
+      size: 3,
+      positions: [],
+    },
+    {
+      name: "Submarine",
+      size: 3,
+      positions: [],
+    },
+    {
+      name: "Patrol Boat",
+      size: 2,
+      positions: [],
+    },
+  ],
+  yourGrid: Array(10)
     .fill(null)
-    .map((x) => Array(11).fill(null)),
-  currentShip: 0,
-};
-const dictionary = {
-  0: null,
-  1: "A",
-  2: "B",
-  3: "C",
-  4: "D",
-  5: "E",
-  6: "F",
-  7: "G",
-  8: "H",
-  9: "I",
-  10: "J",
+    .map((x) =>
+      Array(10).fill({
+        status: "empty",
+        hover: false,
+        hit: false,
+      })
+    ),
+  enemyGrid: Array(10)
+    .fill(null)
+    .map((x) =>
+      Array(10).fill({
+        status: "empty",
+        hover: false,
+        hit: false,
+      })
+    ),
+  yourCurrentShip: 0,
+  enemyCurrentShip: 0,
+  showStartGame: false,
+  showBoardGame: false,
 };
 
-const gridGenerator = () => {
-  for (let i = 0; i < initialState.squares[0].length; i++) {
-    let row = [];
-    for (let j = 0; j < initialState.squares.length; j++) {
-      if (i === 0) {
-        initialState.squares[i][j] = { status: "label", label: dictionary[j] };
-      } else if (i !== 0 && j === 0) {
-        initialState.squares[i][j] = { status: "label", label: i };
-      } else {
-        initialState.squares[i][j] = {
-          status: "empty",
-          hover: false,
-          hit: false,
-          type: null,
-        };
-      }
-    }
+const resetState = JSON.parse(JSON.stringify(initialState));
+
+export const start = (state = initialState.showStartGame, action) => {
+  if (action.type === START_GAME) state = true;
+  if (action.type === RESET_GAME)
+    return JSON.parse(JSON.stringify(resetState.showStartGame));
+  return state;
+};
+
+export const startBoard = (state = initialState.showBoardGame, action) => {
+  if (action.type === BOARD_GAME) state = true;
+  if (action.type === RESET_GAME)
+    return JSON.parse(JSON.stringify(resetState.showBoardGame));
+  return state;
+};
+
+export const yourShips = (state = initialState.yourShipsList, action) => {
+  if (action.type === RESET_GAME)
+    return JSON.parse(JSON.stringify(resetState.yourShipsList));
+  return state;
+};
+
+export const enemyShips = (state = initialState.enemyShipsList, action) => {
+  return state;
+};
+
+export const yourCurrentShip = (
+  state = initialState.yourCurrentShip,
+  action
+) => {
+  if (action.type === UPDATE_YOUR_SHIP) return state + 1;
+  if (action.type === RESET_GAME)
+    return JSON.parse(JSON.stringify(resetState.yourCurrentShip));
+  return state;
+};
+
+export const enemyCurrentShip = (
+  state = initialState.enemyCurrentShip,
+  action
+) => {
+  if (action.type === UPDATE_ENEMY_SHIP) return state + 1;
+  return state;
+};
+
+export const yourGrid = (state = initialState.yourGrid, action) => {
+  if (action.type === SET_YOUR_SHIP) {
+    const newGrid = [...state];
+    const { newCoords } = action.payload;
+    newCoords.forEach(([x, y]) => {
+      newGrid[x][y] = { ...newGrid[x][y], hover: true };
+    });
+    return newGrid;
   }
-  return initialState.squares;
-};
-
-export const ships = (state = initialState.shipList, action) => {
+  if (action.type === REMOVE_YOUR_SHIP) {
+    const newGrid = [...state];
+    const { shipCoords } = action.payload;
+    shipCoords.forEach(([x, y]) => {
+      newGrid[x][y] = { ...newGrid[x][y], hover: false };
+    });
+    return newGrid;
+  }
+  if (action.type === RESET_GAME)
+    return JSON.parse(JSON.stringify(resetState.yourGrid));
   return state;
 };
 
-export const currentShip = (state = initialState.currentShip, action) => {
-  if (action.type === UPDATE_SHIP) return state + 1;
-  return state;
-};
-
-export const grid = (state = gridGenerator(), action) => {
-  if (action.type === UPDATE_GRID) return [...state];
+export const enemyGrid = (state = initialState.enemyGrid, action) => {
+  if (action.type === SET_ENEMY_SHIP) {
+    const newGrid = [...state];
+    const { newCoords } = action.payload;
+    newCoords.forEach(([x, y]) => {
+      newGrid[x][y] = { ...newGrid[x][y], status: "occupied" };
+    });
+    return newGrid;
+  }
   return state;
 };
 
 export const battleship = combineReducers({
-  ships,
-  grid,
-  currentShip,
+  yourShips,
+  enemyShips,
+  yourGrid,
+  enemyGrid,
+  yourCurrentShip,
+  enemyCurrentShip,
+  start,
+  startBoard,
 });

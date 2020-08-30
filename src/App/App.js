@@ -1,19 +1,18 @@
 import React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
-import { battleship } from "./Redux/reducers";
-import MyShips from "./ships/YourShips";
-import Board from "./board/board";
-
+import { battleship } from "./redux/reducers";
+import Footer from "./footer";
+import Header from "./header";
+import GameBoard from "./board/gameBoard";
 const store = createStore(battleship);
 
 const App = () => {
   return (
     <Provider store={store}>
-      <MyShips />
-      <div className="boxBoard">
-        <Board />
-      </div>
+      <Header />
+      <GameBoard />
+      <Footer />
     </Provider>
   );
 };
