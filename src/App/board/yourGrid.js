@@ -7,7 +7,6 @@ import {
   removeYourShip,
   setYourShip,
   startGame,
-  boardGame,
   placeShip,
   setEnemyHit,
   setTurn,
@@ -20,7 +19,6 @@ const YourGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.yourGrid);
   const start = useSelector((state) => state.start);
-  const startBoard = useSelector((state) => state.startBoard);
   const ships = useSelector((state) => state.yourShips);
   const currentShip = useSelector((state) => state.yourCurrentShip);
   const yourTurn = useSelector((state) => state.turn);
