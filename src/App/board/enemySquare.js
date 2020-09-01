@@ -10,9 +10,7 @@ const EnemySquare = ({ value, i, j, handleClick }) => {
         e.preventDefault();
         handleClick(i, j);
       }}
-    >
-      {" "}
-    </div>
+    ></div>
   );
 };
 export default EnemySquare;

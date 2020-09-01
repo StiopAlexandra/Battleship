@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import EnemySquare from "./enemySquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";

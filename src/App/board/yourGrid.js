@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import YourSquare from "./yourSquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";
@@ -7,7 +7,6 @@ import {
   removeYourShip,
   setYourShip,
   startGame,
-  boardGame,
   placeShip,
   setEnemyHit,
   setTurn,
@@ -20,7 +19,6 @@ const YourGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.yourGrid);
   const start = useSelector((state) => state.start);
-  const startBoard = useSelector((state) => state.startBoard);
   const ships = useSelector((state) => state.yourShips);
   const currentShip = useSelector((state) => state.yourCurrentShip);
   const yourTurn = useSelector((state) => state.turn);
@@ -64,9 +62,9 @@ const YourGrid = () => {
     let row = randomNum();
     let col = randomNum();
     if (grid[row][col].status === "occupied") {
-      setTimeout(dispatch(setEnemyHit(row, col)), 3000); //dispatch(setEnemyHit(row, col));
+      dispatch(setEnemyHit(row, col));
     } else {
-      setTimeout(dispatch(setEnemyMiss(row, col)), 3000); //dispatch(setEnemyMiss(row, col));
+      dispatch(setEnemyMiss(row, col));
     }
     dispatch(setTurn(yourTurn));
   }

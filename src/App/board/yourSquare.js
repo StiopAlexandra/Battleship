@@ -23,9 +23,7 @@ const YourSquare = ({
         e.preventDefault();
         handleClick(i, j);
       }}
-    >
-      {" "}
-    </div>
+    ></div>
   );
 };
 export default YourSquare;

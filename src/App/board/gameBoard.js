@@ -5,7 +5,7 @@ import YourGrid from "./yourGrid";
 import EnemyGrid from "./enemyGrid";
 import YourShips from "../ships/yourShips";
 import EnemyShips from "../ships/enemyShips";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 const GameBoard = () => {
   const startBoard = useSelector((state) => state.startBoard);
   return (
