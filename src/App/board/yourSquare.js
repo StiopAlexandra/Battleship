@@ -24,7 +24,7 @@ const YourSquare = ({
         handleClick(i, j);
       }}
     >
-      {value.type}
+      {" "}
     </div>
   );
 };

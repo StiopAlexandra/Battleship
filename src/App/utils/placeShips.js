@@ -1,73 +1,18 @@
-const isOccupied = (grid, row, col, length, rotated) => {
-  let isTaken = false;
+export const isOccupied = ({ grid, shipCoords, rotated }) => {
   if (rotated) {
-    for (let i = 0; i < length; i++) {
-      if (grid[row + i][col].status === "occupied") {
-        isTaken = true;
+    for (let i = 0; i < shipCoords.length; i++) {
+      if (grid[shipCoords[i][0]][shipCoords[i][1]].status === "occupied") {
+        return null;
       }
     }
   } else {
-    for (let i = 0; i < length; i++) {
-      if (grid[row][col + i].status === "occupied") {
-        isTaken = true;
+    for (let i = 0; i < shipCoords.length; i++) {
+      if (grid[shipCoords[i][0]][shipCoords[i][1]].status === "occupied") {
+        return null;
       }
     }
   }
-  return isTaken;
-};
-
-export const placeYourShip = ({
-  grid,
-  row,
-  col,
-  length,
-  ships,
-  currentShip,
-  rotated,
-}) => {
-  if (isOccupied(grid, row, col, length, rotated)) {
-    return null;
-  } else {
-    if (rotated) {
-      for (let i = 0; i < length; i++) {
-        grid[row + i][col].status = "occupied";
-        grid[row + i][col].hover = false;
-        ships[currentShip].positions.push({ row: row + i, col, hit: false });
-      }
-    } else {
-      for (let i = 0; i < length; i++) {
-        grid[row][col + i].status = "occupied";
-        grid[row][col + i].hover = false;
-        ships[currentShip].positions.push({ row, col: col + i, hit: false });
-      }
-    }
-    return ships;
-  }
-};
-
-export const placeEnemyShip = ({
-  grid,
-  row,
-  col,
-  length,
-  ships,
-  currentShip,
-  rotated,
-}) => {
-  if (isOccupied(grid, row, col, length, rotated)) {
-    return null;
-  } else {
-    if (rotated) {
-      for (let i = 0; i < length; i++) {
-        ships[currentShip].positions.push({ row: row + i, col, hit: false });
-      }
-    } else {
-      for (let i = 0; i < length; i++) {
-        ships[currentShip].positions.push({ row, col: col + i, hit: false });
-      }
-    }
-    return ships;
-  }
+  return shipCoords;
 };
 
 export const getShipCoords = ({ row, col, length, rotated }) => {
@@ -102,6 +47,8 @@ export const classUpdate = (square) => {
     classes += "hit";
   } else if (square.status === "sunk") {
     classes += "sunk";
+  } else if (square.status === "miss") {
+    classes += "miss";
   }
   return classes;
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { resetGame, boardGame } from "./redux/actions";
+import { resetGame, boardGame } from "../redux/actions";
 
 const Footer = () => {
   const start = useSelector((state) => state.start);
@@ -8,16 +8,14 @@ const Footer = () => {
   const dispatch = useDispatch();
   return (
     <div>
-      {start === true ? (
-        startBoard === false ? (
-          <div className="buttons">
-            <button onClick={() => dispatch(boardGame())}>START</button>
-            <button onClick={() => dispatch(resetGame())}>RESET</button>
-          </div>
-        ) : (
-          <div />
-        )
-      ) : (
+      {start && !startBoard && (
+        <div className="buttons">
+          <button onClick={() => dispatch(boardGame())}>START</button>
+          <button onClick={() => dispatch(resetGame())}>RESET</button>
+        </div>
+      )}
+      {start && startBoard && <div />}
+      {!start && (
         <footer>
           <div className="mouse">
             <img
@@ -44,4 +42,5 @@ const Footer = () => {
     </div>
   );
 };
+
 export default Footer;

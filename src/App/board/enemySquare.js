@@ -5,13 +5,13 @@ const EnemySquare = ({ value, i, j, handleClick }) => {
   return (
     <div
       className={classUpdate(value)}
-      //   onClick={(e) => {
-      //     e.stopPropagation();
-      //     e.preventDefault();
-      //     handleClick(i, j);
-      //   }}
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleClick(i, j);
+      }}
     >
-      {value.type}
+      {" "}
     </div>
   );
 };

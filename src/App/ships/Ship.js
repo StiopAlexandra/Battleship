@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 const Ship = ({ ship, index }) => {
   const start = useSelector((state) => state.start);
-  const currentShip = useSelector((state) => state.currentShip);
+  const yourCurrentShip = useSelector((state) => state.yourCurrentShip);
   let color;
-  if (index === currentShip || start === true) color = "rgb(80, 81, 82)";
+  if (index === yourCurrentShip || start === true) color = "rgb(80, 81, 82)";
   else color = "rgb(185, 185, 185)";
   return (
     <div
