@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import YourSquare from "./yourSquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";
@@ -64,9 +64,9 @@ const YourGrid = () => {
     let row = randomNum();
     let col = randomNum();
     if (grid[row][col].status === "occupied") {
-      setTimeout(dispatch(setEnemyHit(row, col)), 3000); //dispatch(setEnemyHit(row, col));
+      dispatch(setEnemyHit(row, col));
     } else {
-      setTimeout(dispatch(setEnemyMiss(row, col)), 3000); //dispatch(setEnemyMiss(row, col));
+      dispatch(setEnemyMiss(row, col));
     }
     dispatch(setTurn(yourTurn));
   }
