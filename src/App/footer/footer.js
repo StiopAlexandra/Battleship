@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { resetGame, boardGame } from "../redux/actions";
-
 const Footer = () => {
   const start = useSelector((state) => state.start);
   const startBoard = useSelector((state) => state.startBoard);

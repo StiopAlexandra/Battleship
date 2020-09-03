@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import YourSquare from "./yourSquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";
@@ -58,17 +58,27 @@ const YourGrid = () => {
     return Math.floor(Math.random() * 10);
   };
 
+  const x = useRef(randomNum());
+  const y = useRef(randomNum());
   if (yourTurn === false) {
-    let row = randomNum();
-    let col = randomNum();
-    if (grid[row][col].status === "occupied") {
-      dispatch(setEnemyHit(row, col));
+    if (grid[x.current][y.current].status === "occupied") {
+      dispatch(setEnemyHit(x.current, y.current));
+    }
+    if (grid[x.current][y.current].status === "empty") {
+      dispatch(setEnemyMiss(x.current, y.current));
+    }
+    if (grid[x.current][y.current].status === "hit") {
+      x.current++;
     } else {
-      dispatch(setEnemyMiss(row, col));
+      x.current = randomNum();
+      y.current = randomNum();
+    }
+    while (grid[x.current][y.current].status === "miss") {
+      x.current = randomNum();
+      y.current = randomNum();
     }
     dispatch(setTurn(yourTurn));
   }
-
   const square = grid.map((row, rowIndex) => {
     return row.map((cell, cellIndex) => {
       return (

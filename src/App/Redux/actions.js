@@ -6,6 +6,7 @@ export const SET_ENEMY_SHIP = "SET_ENEMY_SHIP";
 export const SET_YOUR_POSITIONS = "SET_POSITIONS";
 export const SET_ENEMY_POSITIONS = "SET_POSITIONS";
 export const SET_YOUR_HIT = "SET_YOUR_HIT";
+export const SET_YOUR_POSITION_HIT = "SET_YOUR_POSITION_HIT";
 export const SET_YOUR_MISS = "SET_YOUR_MISS";
 export const SET_ENEMY_HIT = "SET_ENEMY_HIT";
 export const SET_ENEMY_MISS = "SET_ENEMY_MISS";
@@ -76,6 +77,15 @@ export const setEnemyShip = (newCoords) => {
 export const setYourHit = (cellX, cellY) => {
   return {
     type: SET_YOUR_HIT,
+    payload: {
+      cellX,
+      cellY,
+    },
+  };
+};
+export const setYourPositionHit = (cellX, cellY) => {
+  return {
+    type: SET_YOUR_POSITION_HIT,
     payload: {
       cellX,
       cellY,
