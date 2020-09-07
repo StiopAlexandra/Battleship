@@ -10,7 +10,6 @@ const GameBoard = () => {
   const startBoard = useSelector((state) => state.startBoard);
   return (
     <div>
-      {startBoard === true ? (
         <div className="startBoard">
           <div className="container2">
             <YourShips />
@@ -22,29 +21,21 @@ const GameBoard = () => {
               </div>
             </div>
           </div>
-          <div className="container2">
-            <div className="boxBoard">
-              <Row />
-              <div style={{ display: "flex" }}>
-                <Col />
-                <EnemyGrid />
+          {
+            startBoard === true ? (
+              <div className="container2">
+                <div className="boxBoard">
+                  <Row />
+                  <div style={{ display: "flex" }}>
+                    <Col />
+                    <EnemyGrid />
+                  </div>
+                </div>
+                <EnemyShips />
               </div>
-            </div>
-            <EnemyShips />
-          </div>
+            ) : null
+          }
         </div>
-      ) : (
-        <div className="container1">
-          <YourShips />
-          <div className="boxBoard">
-            <Row />
-            <div style={{ display: "flex" }}>
-              <Col />
-              <YourGrid />
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
