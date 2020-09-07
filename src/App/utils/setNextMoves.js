@@ -6,10 +6,12 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row + 1,
           col: col,
+          direction: "S",
         },
         {
           row: row,
           col: col + 1,
+          direction: "E",
         }
       );
     if (col > 0 && col < 9)
@@ -17,14 +19,17 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row,
           col: col + 1,
+          direction: "E",
         },
         {
           row: row + 1,
           col: col,
+          direction: "S",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         }
       );
     if (col === 9)
@@ -32,10 +37,12 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row + 1,
           col: col,
+          direction: "S",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         }
       );
   }
@@ -45,10 +52,12 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col + 1,
+          direction: "E",
         }
       );
     if (col > 0 && col < 9)
@@ -56,14 +65,17 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row,
           col: col + 1,
+          direction: "E",
         },
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         }
       );
     if (col === 9)
@@ -71,10 +83,12 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         }
       );
   }
@@ -84,14 +98,17 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col + 1,
+          direction: "E",
         },
         {
           row: row + 1,
           col: col,
+          direction: "S",
         }
       );
     if (col > 0 && col < 9)
@@ -99,18 +116,22 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col + 1,
+          direction: "E",
         },
         {
           row: row + 1,
           col: col,
+          direction: "S",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         }
       );
     if (col === 9)
@@ -118,14 +139,17 @@ export const setNextMoves = ({ row, col }) => {
         {
           row: row - 1,
           col: col,
+          direction: "N",
         },
         {
           row: row,
           col: col - 1,
+          direction: "V",
         },
         {
           row: row + 1,
           col: col,
+          direction: "S",
         }
       );
   }

@@ -67,8 +67,20 @@ const YourGrid = () => {
   const x = useRef(randomNum());
   const y = useRef(randomNum());
   const [hunt, setHunt] = useState(true);
-  //const [target, setTarget] = useState(0);
+  const [dir, setDir] = useState(false);
   const [index, setIndex] = useState(0);
+
+  const setSunkPos = () => {
+    for (let i = 0; i < ships.length; i++) {
+      let ship = ships[i];
+      if (isSunk({ ship }))
+        for (let j = 0; j < ships[i].positions.length; j++) {
+          dispatch(
+            setYourSunk(ships[i].positions[j].row, ships[i].positions[j].col)
+          );
+        }
+    }
+  };
 
   const randomMoves = () => {
     x.current = randomNum();
@@ -85,17 +97,9 @@ const YourGrid = () => {
       dispatch(setYourHit(x.current, y.current));
       dispatch(setEnemyMoves(moves));
       dispatch(setYourPositionHit(x.current, y.current));
+      setSunkPos();
       setHunt(false);
       setIndex(0);
-      for (let i = 0; i < ships.length; i++) {
-        let ship = ships[i];
-        if (isSunk({ ship }))
-          for (let j = 0; j < ships[i].positions.length; j++) {
-            dispatch(
-              setYourSunk(ships[i].positions[j].row, ships[i].positions[j].col)
-            );
-          }
-      }
     } else {
       if (grid[x.current][y.current].status === "empty") {
         dispatch(setYourMiss(x.current, y.current));
@@ -109,50 +113,121 @@ const YourGrid = () => {
       const row = x.current;
       const col = y.current;
       const nextMoves = setNextMoves({ row, col });
-      // while (
-      //   (grid[nextMoves[index].row][nextMoves[index].col].status === "miss" ||
-      //     grid[nextMoves[index].row][nextMoves[index].col].status === "hit" ||
-      //     grid[nextMoves[index].row][nextMoves[index].col].status === "sunk") &&
-      //   index < nextMoves.length
-      // ) {
-      //   setIndex(index + 1);
-      // }
-      // if (index === nextMoves.length) {
-      //   setHunt(true);
-      //   randomMoves();
-      // } else {
-      if (
-        grid[nextMoves[index].row][nextMoves[index].col].status === "occupied"
-      ) {
-        dispatch(setYourHit(nextMoves[index].row, nextMoves[index].col));
-        dispatch(setEnemyMoves(moves));
-        dispatch(
-          setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
-        );
-        setIndex(index + 1);
-        for (let i = 0; i < ships.length; i++) {
-          let ship = ships[i];
-          if (isSunk({ ship }))
-            for (let j = 0; j < ships[i].positions.length; j++) {
-              dispatch(
-                setYourSunk(
-                  ships[i].positions[j].row,
-                  ships[i].positions[j].col
-                )
-              );
-            }
-        }
-      } else {
+      // console.log(index, nextMoves.length);
+      console.log("dir" + dir);
+      if (dir === false) {
         if (
-          grid[nextMoves[index].row][nextMoves[index].col].status === "empty"
+          grid[nextMoves[index].row][nextMoves[index].col].status === "miss" ||
+          grid[nextMoves[index].row][nextMoves[index].col].status === "hit" ||
+          grid[nextMoves[index].row][nextMoves[index].col].status === "sunk"
         ) {
-          dispatch(setYourMiss(nextMoves[index].row, nextMoves[index].col));
-          setIndex(index + 1);
+          setHunt(true);
+          randomMoves();
+        }
+        if (
+          grid[nextMoves[index].row][nextMoves[index].col].status === "occupied"
+        ) {
+          dispatch(setYourHit(nextMoves[index].row, nextMoves[index].col));
+          dispatch(setEnemyMoves(moves));
+          dispatch(
+            setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+          );
+          setSunkPos();
+          setDir(nextMoves[index].direction);
+          console.log(dir);
+          console.log(nextMoves[index] + " " + index);
+          //setIndex(index + 1);
+        } else {
+          if (
+            grid[nextMoves[index].row][nextMoves[index].col].status === "empty"
+          ) {
+            dispatch(setYourMiss(nextMoves[index].row, nextMoves[index].col));
+            setIndex(index + 1);
+            setDir(false);
+          }
+        }
+        if (index + 1 === nextMoves.length) setHunt(true);
+      } else {
+        console.log(nextMoves[index] + " " + index);
+        if (dir === "N") {
+          if (
+            grid[nextMoves[index].row - 1][nextMoves[index].col].status ===
+            "occupied"
+          ) {
+            dispatch(setYourHit(nextMoves[index].row, nextMoves[index].col));
+            dispatch(setEnemyMoves(moves));
+            dispatch(
+              setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+            );
+            setSunkPos();
+            setDir(nextMoves[index].direction);
+            //setIndex(index + 1);
+          } else {
+            setHunt(true);
+            randomMoves();
+          }
+        } else {
+          if (dir === "E") {
+            if (
+              grid[nextMoves[index].row][nextMoves[index].col + 1].status ===
+              "occupied"
+            ) {
+              dispatch(setYourHit(nextMoves[index].row, nextMoves[index].col));
+              dispatch(setEnemyMoves(moves));
+              dispatch(
+                setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+              );
+              setSunkPos();
+              setDir(nextMoves[index].direction);
+              //setIndex(index + 1);
+            } else {
+              setHunt(true);
+              randomMoves();
+            }
+          } else {
+            if (dir === "S") {
+              if (
+                grid[nextMoves[index].row + 1][nextMoves[index].col].status ===
+                "occupied"
+              ) {
+                dispatch(
+                  setYourHit(nextMoves[index].row, nextMoves[index].col)
+                );
+                dispatch(setEnemyMoves(moves));
+                dispatch(
+                  setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+                );
+                setSunkPos();
+                setDir(nextMoves[index].direction);
+                //setIndex(index + 1);
+              } else {
+                setHunt(true);
+                randomMoves();
+              }
+            } else {
+              if (
+                grid[nextMoves[index].row][nextMoves[index].col - 1].status ===
+                "occupied"
+              ) {
+                dispatch(
+                  setYourHit(nextMoves[index].row, nextMoves[index].col)
+                );
+                dispatch(setEnemyMoves(moves));
+                dispatch(
+                  setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+                );
+                setSunkPos();
+                setDir(nextMoves[index].direction);
+                //setIndex(index + 1);
+              } else {
+                setHunt(true);
+                randomMoves();
+              }
+            }
+          }
         }
       }
-      if (index + 1 === nextMoves.length) setHunt(true);
     }
-    //}
     dispatch(setTurn(yourTurn));
   }
 
