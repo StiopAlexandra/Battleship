@@ -1,6 +1,7 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
+  background: #f8f8f8 0% 0% no-repeat padding-box;
 }
 
 #root {
@@ -8,36 +9,58 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: #f8f8f8 0% 0% no-repeat padding-box;
 }
 
 .container1 {
   display: flex;
-  width: 570px;
-  margin-left: 325px;
+  margin-left: -67px;
 }
 
 .container2 {
+  padding-left: 20px;
   display: flex;
-  width: 570px;
-  margin: auto;
 }
 
 .yourShips {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-right: 35px;
+  margin-right: 30px;
 }
+.yourShips h3 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.yourShips div {
+  border: 2px solid white;
+  height: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
 .enemyShips {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: 35px;
+  margin-left: 30px;
 }
+.enemyShips h3 {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.enemyShips div {
+  border: 2px solid white;
+  height: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
 .startBoard {
   display: flex;
   width: 100%;
+  justify-content: center;
 }
 .boxBoard {
   width: 435px;
@@ -63,7 +86,7 @@ body {
   width: 35px;
   height: 35px;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px solid #ddd;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -84,7 +107,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font: normal normal normal 14px/19px Roboto;
+  color: #777777;
 }
 
 header {
@@ -93,13 +117,23 @@ header {
   margin-bottom: 10px;
 }
 
+header h1 {
+  font: normal normal bold 24px/32px Roboto;
+}
+
+header h4{
+  margin: 22px 0 6px 0;
+  font: normal normal 400 16px/21px Roboto;
+  color: #22D0B8;
+}
+
 footer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   margin: auto;
-  width: 480px;
+  width: 400px;
   margin-bottom: 20px;
 }
 
@@ -116,6 +150,9 @@ footer {
   display: flex;
   justify-content: flex-start;
   margin-top: 20px;
+  text-align: left;
+  font: normal normal normal 14px/19px Roboto;
+  color: #777777;
 }
 
 .text_mouse {
@@ -131,10 +168,19 @@ footer {
 }
 
 .button {
-  margin: 25px;
+  margin: 30px 25px;
   width: 65px;
   height: 40px;
   border-radius: 5px;
+  border: unset;
+}
+.button.start {
+  background: #34C950 0% 0% no-repeat padding-box;
+  color: white;
+}
+.button.reset {
+  color: #34C950;
+  background: transparent;
 }
 
 .playAgain {
@@ -145,27 +191,32 @@ footer {
 /* Grid coloring classes */
 
 .active {
-  background-color: lightgrey;
+  background-color: #22D0B81A;
+  border-color: #22D0B81A;
 }
 
 .occupied {
-  background-color: #666666;
+  background-color: #22D0B81A;
+  border-color: #22D0B8;
 }
 
 .active-occupied {
-  background-color: #ff0000;
+  background-color: #FF494940;
+  border-color: #FF494940;
 }
 
 .hit {
-  background-color: #ffcc33;
+  background-color: rgba(250, 183, 183, 0.25);
+  border-color: #FF4949;
 }
 
 .sunk {
-  background-color: #ff3333;
+  background-color: #FF494940;
+  border-color: #FF4949;
 }
 
 .miss {
-  background-color: lightgrey;
+  background-color: #DDDDDD40;
 }
 
 /*------------------- */

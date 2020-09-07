@@ -18,9 +18,9 @@ export const yourClass = (square) => {
 
 export const enemyClass = (square) => {
   let classes = "grid-square ";
-  //   if (square.status === "occupied") {
-  //     classes += "occupied";
-  //   } else
+    // if (square.status === "occupied") {
+    //   classes += "occupied";
+    // } else
   if (square.status === "hit") {
     classes += "hit";
   } else if (square.status === "sunk") {

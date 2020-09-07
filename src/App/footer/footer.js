@@ -14,10 +14,10 @@ const Footer = () => {
     <div>
       {start && !startBoard && (
         <div className="buttons">
-          <button className="button" onClick={() => dispatch(boardGame())}>
+          <button className="button start" onClick={() => dispatch(boardGame())}>
             START
           </button>
-          <button className="button" onClick={() => dispatch(resetGame())}>
+          <button className="button reset" onClick={() => dispatch(resetGame())}>
             RESET
           </button>
         </div>
@@ -26,7 +26,7 @@ const Footer = () => {
       {start && startBoard && yourMoves === 17 && (
         <div className="gameEnd">
           <h3>You win!</h3>
-          <button className="playAgain" onClick={restart}>
+          <button className="playAgain start" onClick={restart}>
             PLAY AGAIN
           </button>
         </div>
@@ -34,7 +34,7 @@ const Footer = () => {
       {start && startBoard && enemyMoves === 17 && (
         <div className="gameEnd">
           <h3>You lose!</h3>
-          <button className="playAgain" onClick={restart}>
+          <button className="playAgain start" onClick={restart}>
             PLAY AGAIN
           </button>
         </div>

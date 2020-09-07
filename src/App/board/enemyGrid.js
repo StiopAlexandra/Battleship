@@ -44,7 +44,7 @@ const EnemyGrid = () => {
   
   useEffect(() => {
       randomShips();
-  }, [startBoard])
+  })
   
   const handleClick = (row, col) => {
     if (yourTurn) {

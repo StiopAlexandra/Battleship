@@ -11,7 +11,7 @@ const GameBoard = () => {
   return (
     <div>
         <div className="startBoard">
-          <div className="container2">
+          <div className="container1">
             <YourShips />
             <div className="boxBoard">
               <Row />
