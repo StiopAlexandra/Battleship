@@ -1,5 +1,5 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: 0;
   background: #f8f8f8 0% 0% no-repeat padding-box;
 }
@@ -121,10 +121,10 @@ header h1 {
   font: normal normal bold 24px/32px Roboto;
 }
 
-header h4{
+header h4 {
   margin: 22px 0 6px 0;
   font: normal normal 400 16px/21px Roboto;
-  color: #22D0B8;
+  color: #22d0b8;
 }
 
 footer {
@@ -175,11 +175,11 @@ footer {
   border: unset;
 }
 .button.start {
-  background: #34C950 0% 0% no-repeat padding-box;
+  background: #34c950 0% 0% no-repeat padding-box;
   color: white;
 }
 .button.reset {
-  color: #34C950;
+  color: #34c950;
   background: transparent;
 }
 
@@ -191,32 +191,32 @@ footer {
 /* Grid coloring classes */
 
 .active {
-  background-color: #22D0B81A;
-  border-color: #22D0B81A;
+  background-color: #22d0b81a;
+  border-color: #22d0b81a;
 }
 
 .occupied {
-  background-color: #22D0B81A;
-  border-color: #22D0B8;
+  background-color: #22d0b81a;
+  border-color: #22d0b8;
 }
 
 .active-occupied {
-  background-color: #FF494940;
-  border-color: #FF494940;
+  background-color: #ff494940;
+  border-color: #ff494940;
 }
 
 .hit {
   background-color: rgba(250, 183, 183, 0.25);
-  border-color: #FF4949;
+  border-color: #ff4949;
 }
 
 .sunk {
-  background-color: #FF494940;
-  border-color: #FF4949;
+  background-color: #ff494940;
+  border-color: #ff4949;
 }
 
 .miss {
-  background-color: #DDDDDD40;
+  background-color: #dddddd40;
 }
 
 /*------------------- */

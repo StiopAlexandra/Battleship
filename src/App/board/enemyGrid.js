@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import EnemySquare from "./enemySquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";
@@ -41,11 +41,11 @@ const EnemyGrid = () => {
       }
     }
   };
-  
+
   useEffect(() => {
-      randomShips();
-  })
-  
+    randomShips();
+  });
+
   const handleClick = (row, col) => {
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
@@ -68,7 +68,7 @@ const EnemyGrid = () => {
       if (grid[row][col].status === "empty") {
         dispatch(setEnemyMiss(row, col));
       }
-      dispatch(setTurn(yourTurn));
+      setTimeout(() => dispatch(setTurn(yourTurn)), 1000);
     }
   };
   const square = grid.map((row, rowIndex) => {

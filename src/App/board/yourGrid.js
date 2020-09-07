@@ -349,7 +349,7 @@ const YourGrid = () => {
           }
         }
       }
-      dispatch(setTurn(yourTurn));
+      setTimeout(() => dispatch(setTurn(yourTurn)), 1000);
     }
   }, [yourTurn]);
 
