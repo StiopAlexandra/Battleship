@@ -6,10 +6,10 @@ const YourShip = ({ ship, index }) => {
   const startBoard = useSelector((state) => state.startBoard);
   const yourCurrentShip = useSelector((state) => state.yourCurrentShip);
   let color;
-  if (isSunk({ ship })) color = "#c34141";
+  if (isSunk({ ship })) color = "#ff3333";
   else {
-    if (index <= yourCurrentShip || start === true) color = "rgb(80, 81, 82)";
-    else color = "rgb(185, 185, 185)";
+    if (index <= yourCurrentShip || start === true) color = "#666666";
+    else color = "lightgrey";
   }
   return (
     <div

@@ -18,6 +18,7 @@ import {
   setYourSunk,
   setEnemyMoves,
 } from "../redux/actions";
+import { setNextMoves } from "../utils/setNextMoves";
 
 const YourGrid = () => {
   const dispatch = useDispatch();
@@ -65,11 +66,27 @@ const YourGrid = () => {
 
   const x = useRef(randomNum());
   const y = useRef(randomNum());
-  if (yourTurn === false) {
+  const [hunt, setHunt] = useState(true);
+  //const [target, setTarget] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const randomMoves = () => {
+    x.current = randomNum();
+    y.current = randomNum();
+    while (
+      grid[x.current][y.current].status === "miss" ||
+      grid[x.current][y.current].status === "sunk" ||
+      grid[x.current][y.current].status === "hit"
+    ) {
+      x.current = randomNum();
+      y.current = randomNum();
+    }
     if (grid[x.current][y.current].status === "occupied") {
       dispatch(setYourHit(x.current, y.current));
       dispatch(setEnemyMoves(moves));
       dispatch(setYourPositionHit(x.current, y.current));
+      setHunt(false);
+      setIndex(0);
       for (let i = 0; i < ships.length; i++) {
         let ship = ships[i];
         if (isSunk({ ship }))
@@ -79,19 +96,63 @@ const YourGrid = () => {
             );
           }
       }
+    } else {
+      if (grid[x.current][y.current].status === "empty") {
+        dispatch(setYourMiss(x.current, y.current));
+      }
     }
-    if (grid[x.current][y.current].status === "empty") {
-      dispatch(setYourMiss(x.current, y.current));
+  };
+  if (yourTurn === false) {
+    if (hunt === true) {
+      randomMoves();
+    } else {
+      const row = x.current;
+      const col = y.current;
+      const nextMoves = setNextMoves({ row, col });
+      // while (
+      //   (grid[nextMoves[index].row][nextMoves[index].col].status === "miss" ||
+      //     grid[nextMoves[index].row][nextMoves[index].col].status === "hit" ||
+      //     grid[nextMoves[index].row][nextMoves[index].col].status === "sunk") &&
+      //   index < nextMoves.length
+      // ) {
+      //   setIndex(index + 1);
+      // }
+      // if (index === nextMoves.length) {
+      //   setHunt(true);
+      //   randomMoves();
+      // } else {
+      if (
+        grid[nextMoves[index].row][nextMoves[index].col].status === "occupied"
+      ) {
+        dispatch(setYourHit(nextMoves[index].row, nextMoves[index].col));
+        dispatch(setEnemyMoves(moves));
+        dispatch(
+          setYourPositionHit(nextMoves[index].row, nextMoves[index].col)
+        );
+        setIndex(index + 1);
+        for (let i = 0; i < ships.length; i++) {
+          let ship = ships[i];
+          if (isSunk({ ship }))
+            for (let j = 0; j < ships[i].positions.length; j++) {
+              dispatch(
+                setYourSunk(
+                  ships[i].positions[j].row,
+                  ships[i].positions[j].col
+                )
+              );
+            }
+        }
+      } else {
+        if (
+          grid[nextMoves[index].row][nextMoves[index].col].status === "empty"
+        ) {
+          dispatch(setYourMiss(nextMoves[index].row, nextMoves[index].col));
+          setIndex(index + 1);
+        }
+      }
+      if (index + 1 === nextMoves.length) setHunt(true);
     }
-    x.current = randomNum();
-    y.current = randomNum();
-    while (
-      grid[x.current][y.current].status === "miss" ||
-      grid[x.current][y.current].status === "hit"
-    ) {
-      x.current = randomNum();
-      y.current = randomNum();
-    }
+    //}
     dispatch(setTurn(yourTurn));
   }
 

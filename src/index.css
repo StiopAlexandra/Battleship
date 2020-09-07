@@ -145,23 +145,23 @@ footer {
 /* Grid coloring classes */
 
 .active {
-  background-color: rgb(185, 185, 185);
+  background-color: lightgrey;
 }
 
 .occupied {
-  background-color: rgb(80, 81, 82);
+  background-color: #666666;
 }
 
 .active-occupied {
-  background-color: red;
+  background-color: #ff0000;
 }
 
 .hit {
-  background-color: yellow;
+  background-color: #ffcc33;
 }
 
 .sunk {
-  background-color: #c34141;
+  background-color: #ff3333;
 }
 
 .miss {
