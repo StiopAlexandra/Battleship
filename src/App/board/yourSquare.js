@@ -1,5 +1,5 @@
 import React from "react";
-import { classUpdate } from "../utils/placeShips";
+import { yourClass } from "../utils/squareColor";
 
 const YourSquare = ({
   value,
@@ -11,7 +11,7 @@ const YourSquare = ({
 }) => {
   return (
     <div
-      className={classUpdate(value)}
+      className={yourClass(value)}
       onMouseEnter={() => handleHover(i, j, "enter")}
       onMouseLeave={() => handleHover(i, j, "leave")}
       onContextMenu={(e) => {

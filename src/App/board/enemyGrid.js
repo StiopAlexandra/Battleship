@@ -5,50 +5,66 @@ import { isOccupied, getShipCoords } from "../utils/placeShips";
 import {
   updateEnemyShip,
   setEnemyShip,
-  setYourHit,
-  setYourMiss,
+  setEnemyHit,
+  setEnemyMiss,
   setTurn,
   setEnemyPosition,
   setRotated,
-  setYourPositionHit,
+  setEnemyPositionHit,
+  setEnemySunk,
+  setYourMoves,
 } from "../redux/actions";
+import { isSunk } from "../utils/sunk";
 
 const EnemyGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.enemyGrid);
   const ships = useSelector((state) => state.enemyShips);
+  const moves = useSelector((state) => state.yourMoves);
   const yourTurn = useSelector((state) => state.turn);
   const currentShip = useSelector((state) => state.enemyCurrentShip);
   const rotated = useSelector((state) => state.rotated);
   const startBoard = useSelector((state) => state.startBoard);
 
   const randomShips = () => {
-    if (Math.floor(Math.random() * 2) === 1) dispatch(setRotated(rotated));
-    const row = Math.floor(Math.random() * 10);
-    const col = Math.floor(Math.random() * 10);
-    const length = ships[currentShip].size;
-    const shipCoords = getShipCoords({ row, col, length, rotated });
-    const gameUpdate = isOccupied({ grid, shipCoords, rotated });
-    if (gameUpdate) {
-      dispatch(updateEnemyShip(currentShip));
-      dispatch(setEnemyShip(gameUpdate));
-      dispatch(setEnemyPosition(gameUpdate, currentShip));
+    if (currentShip < ships.length) {
+      if (Math.floor(Math.random() * 2) === 1) dispatch(setRotated(rotated));
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+      const length = ships[currentShip].size;
+      const shipCoords = getShipCoords({ row, col, length, rotated });
+      const gameUpdate = isOccupied({ grid, shipCoords, rotated });
+      if (gameUpdate) {
+        dispatch(updateEnemyShip(currentShip));
+        dispatch(setEnemyShip(gameUpdate));
+        dispatch(setEnemyPosition(gameUpdate, currentShip));
+      }
     }
   };
-  if (currentShip < ships.length) {
-    randomShips();
-  }
+  if (startBoard) randomShips();
   const handleClick = (row, col) => {
     if (yourTurn) {
       if (grid[row][col].status === "occupied") {
-        dispatch(setYourHit(row, col));
-        //dispatch(setYourPositionHit(row, col));
-      } else {
-        dispatch(setYourMiss(row, col));
+        dispatch(setEnemyHit(row, col));
+        dispatch(setYourMoves(moves));
+        dispatch(setEnemyPositionHit(row, col));
+        for (let i = 0; i < ships.length; i++) {
+          let ship = ships[i];
+          if (isSunk({ ship }) == true)
+            for (let j = 0; j < ships[i].positions.length; j++) {
+              dispatch(
+                setEnemySunk(
+                  ships[i].positions[j].row,
+                  ships[i].positions[j].col
+                )
+              );
+            }
+        }
+      }
+      if (grid[row][col].status === "empty") {
+        dispatch(setEnemyMiss(row, col));
       }
       dispatch(setTurn(yourTurn));
-    } else {
-      alert("It's enemy turn!");
     }
   };
   const square = grid.map((row, rowIndex) => {

@@ -1,12 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { isSunk } from "../utils/sunk";
-const EnemyShip = ({ ship, index }) => {
-  const start = useSelector((state) => state.start);
-  const yourCurrentShip = useSelector((state) => state.yourCurrentShip);
-  const startBoard = useSelector((state) => state.startBoard);
+const EnemyShip = ({ ship }) => {
   let color;
-  if (isSunk({ ship }) && startBoard) color = "#c34141";
+  if (isSunk({ ship })) color = "#c34141";
   else color = "rgb(80, 81, 82)";
   return (
     <div

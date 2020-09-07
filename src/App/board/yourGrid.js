@@ -2,23 +2,28 @@ import React, { useRef, useState } from "react";
 import YourSquare from "./yourSquare";
 import { useSelector, useDispatch } from "react-redux";
 import { isOccupied, getShipCoords } from "../utils/placeShips";
+import { isSunk } from "../utils/sunk";
 import {
   updateYourShip,
   removeYourShip,
   setYourShip,
   startGame,
   placeShip,
-  setEnemyHit,
+  setYourHit,
   setTurn,
   setRotated,
-  setEnemyMiss,
+  setYourMiss,
   setYourPosition,
+  setYourPositionHit,
+  setYourSunk,
+  setEnemyMoves,
 } from "../redux/actions";
 
 const YourGrid = () => {
   const dispatch = useDispatch();
   const grid = useSelector((state) => state.yourGrid);
   const start = useSelector((state) => state.start);
+  const moves = useSelector((state) => state.enemyMoves);
   const ships = useSelector((state) => state.yourShips);
   const currentShip = useSelector((state) => state.yourCurrentShip);
   const yourTurn = useSelector((state) => state.turn);
@@ -62,23 +67,34 @@ const YourGrid = () => {
   const y = useRef(randomNum());
   if (yourTurn === false) {
     if (grid[x.current][y.current].status === "occupied") {
-      dispatch(setEnemyHit(x.current, y.current));
+      dispatch(setYourHit(x.current, y.current));
+      dispatch(setEnemyMoves(moves));
+      dispatch(setYourPositionHit(x.current, y.current));
+      for (let i = 0; i < ships.length; i++) {
+        let ship = ships[i];
+        if (isSunk({ ship }))
+          for (let j = 0; j < ships[i].positions.length; j++) {
+            dispatch(
+              setYourSunk(ships[i].positions[j].row, ships[i].positions[j].col)
+            );
+          }
+      }
     }
     if (grid[x.current][y.current].status === "empty") {
-      dispatch(setEnemyMiss(x.current, y.current));
+      dispatch(setYourMiss(x.current, y.current));
     }
-    if (grid[x.current][y.current].status === "hit") {
-      x.current++;
-    } else {
-      x.current = randomNum();
-      y.current = randomNum();
-    }
-    while (grid[x.current][y.current].status === "miss") {
+    x.current = randomNum();
+    y.current = randomNum();
+    while (
+      grid[x.current][y.current].status === "miss" ||
+      grid[x.current][y.current].status === "hit"
+    ) {
       x.current = randomNum();
       y.current = randomNum();
     }
     dispatch(setTurn(yourTurn));
   }
+
   const square = grid.map((row, rowIndex) => {
     return row.map((cell, cellIndex) => {
       return (

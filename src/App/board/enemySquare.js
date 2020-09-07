@@ -1,10 +1,10 @@
 import React from "react";
-import { classUpdate } from "../utils/placeShips";
+import { enemyClass } from "../utils/squareColor";
 
 const EnemySquare = ({ value, i, j, handleClick }) => {
   return (
     <div
-      className={classUpdate(value)}
+      className={enemyClass(value)}
       onClick={(e) => {
         e.stopPropagation();
         e.preventDefault();

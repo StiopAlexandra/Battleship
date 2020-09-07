@@ -4,16 +4,41 @@ import { resetGame, boardGame } from "../redux/actions";
 const Footer = () => {
   const start = useSelector((state) => state.start);
   const startBoard = useSelector((state) => state.startBoard);
+  const yourMoves = useSelector((state) => state.yourMoves);
+  const enemyMoves = useSelector((state) => state.enemyMoves);
   const dispatch = useDispatch();
+  const restart = () => {
+    location.reload();
+  };
   return (
     <div>
       {start && !startBoard && (
         <div className="buttons">
-          <button onClick={() => dispatch(boardGame())}>START</button>
-          <button onClick={() => dispatch(resetGame())}>RESET</button>
+          <button className="button" onClick={() => dispatch(boardGame())}>
+            START
+          </button>
+          <button className="button" onClick={() => dispatch(resetGame())}>
+            RESET
+          </button>
         </div>
       )}
       {start && startBoard && <div />}
+      {start && startBoard && yourMoves === 17 && (
+        <div className="gameEnd">
+          <h3>You win!</h3>
+          <button className="playAgain" onClick={restart}>
+            PLAY AGAIN
+          </button>
+        </div>
+      )}
+      {start && startBoard && enemyMoves === 17 && (
+        <div className="gameEnd">
+          <h3>You lose!</h3>
+          <button className="playAgain" onClick={restart}>
+            PLAY AGAIN
+          </button>
+        </div>
+      )}
       {!start && (
         <footer>
           <div className="mouse">

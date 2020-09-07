@@ -14,10 +14,15 @@ import {
   SET_ENEMY_HIT,
   SET_YOUR_HIT,
   SET_YOUR_POSITION_HIT,
+  SET_ENEMY_POSITION_HIT,
   SET_ENEMY_MISS,
   SET_YOUR_MISS,
   SET_YOUR_POSITIONS,
   SET_ENEMY_POSITIONS,
+  SET_ENEMY_SUNK,
+  SET_YOUR_SUNK,
+  SET_ENEMY_MOVES,
+  SET_YOUR_MOVES,
 } from "./actions";
 
 const initialState = {
@@ -121,7 +126,6 @@ const initialState = {
       Array(10).fill({
         status: "empty",
         hover: false,
-        hit: false,
       })
     ),
   enemyGrid: Array(10)
@@ -129,8 +133,6 @@ const initialState = {
     .map((x) =>
       Array(10).fill({
         status: "empty",
-        hover: false,
-        hit: false,
       })
     ),
   yourCurrentShip: 0,
@@ -139,6 +141,8 @@ const initialState = {
   showBoardGame: false,
   yourTurn: true,
   rotated: false,
+  enemyMoves: 0,
+  yourMoves: 0,
 };
 
 const resetState = JSON.parse(JSON.stringify(initialState));
@@ -175,15 +179,29 @@ export const yourShips = (state = initialState.yourShipsList, action) => {
     return JSON.parse(JSON.stringify(resetState.yourShipsList));
   if (action.type === SET_YOUR_POSITIONS) {
     const { newCoords, cShip } = action.payload;
-    const newState = [...state];
-    newState[cShip].positions = newCoords.map(([x, y], index) => {
+    const yourState = [...state];
+    yourState[cShip].positions = newCoords.map(([x, y], index) => {
       return {
-        ...newState[cShip].positions[index],
+        ...yourState[cShip].positions[index],
         row: x,
         col: y,
       };
     });
-    return newState;
+    return yourState;
+  }
+  if (action.type === SET_YOUR_POSITION_HIT) {
+    const { cellX, cellY } = action.payload;
+    const yourState = [...state];
+    for (let i = 0; i < yourState.length; i++) {
+      for (let j = 0; j < yourState[i].positions.length; j++) {
+        if (
+          cellY === yourState[i].positions[j].col &&
+          cellX === yourState[i].positions[j].row
+        )
+          yourState[i].positions[j].hit = true;
+      }
+    }
+    return yourState;
   }
   return state;
 };
@@ -191,31 +209,30 @@ export const yourShips = (state = initialState.yourShipsList, action) => {
 export const enemyShips = (state = initialState.enemyShipsList, action) => {
   if (action.type === SET_ENEMY_POSITIONS) {
     const { newCoords, cShip } = action.payload;
-    const newState = [...state];
-    newState[cShip].positions = newCoords.map(([x, y], index) => {
+    const enemyState = [...state];
+    enemyState[cShip].positions = newCoords.map(([x, y], index) => {
       return {
-        ...newState[cShip].positions[index],
+        ...enemyState[cShip].positions[index],
         row: x,
         col: y,
       };
     });
-    return newState;
+    return enemyState;
   }
-  // if (action.type === SET_YOUR_POSITION_HIT) {
-  //   const { cellX, cellY } = action.payload;
-  //   return state.map((ship, indexShip) => {
-  //     return ship.positions.map((value, index) => {
-  //       console.log(value);
-  //       if (cellY === value.col && cellX === value.row) {
-  //         return {
-  //           ...ship,
-  //           hit: true,
-  //         };
-  //       }
-  //       return ship;
-  //     });
-  //   });
-  // }
+  if (action.type === SET_ENEMY_POSITION_HIT) {
+    const { cellX, cellY } = action.payload;
+    const enemyState = [...state];
+    for (let i = 0; i < enemyState.length; i++) {
+      for (let j = 0; j < enemyState[i].positions.length; j++) {
+        if (
+          cellY === enemyState[i].positions[j].col &&
+          cellX === enemyState[i].positions[j].row
+        )
+          enemyState[i].positions[j].hit = true;
+      }
+    }
+    return enemyState;
+  }
   return state;
 };
 
@@ -244,6 +261,20 @@ export const enemyCurrentShip = (
   action
 ) => {
   if (action.type === UPDATE_ENEMY_SHIP) {
+    return state + 1;
+  }
+  return state;
+};
+
+export const enemyMoves = (state = initialState.enemyMoves, action) => {
+  if (action.type === SET_ENEMY_MOVES) {
+    return state + 1;
+  }
+  return state;
+};
+
+export const yourMoves = (state = initialState.yourMoves, action) => {
+  if (action.type === SET_YOUR_MOVES) {
     return state + 1;
   }
   return state;
@@ -293,95 +324,6 @@ export const yourGrid = (state = initialState.yourGrid, action) => {
       });
     });
   }
-  // if (action.type === SET_YOUR_SHIP) {
-  //   const newGrid = [...state];
-  //   const { newCoords } = action.payload;
-  //   newCoords.forEach(([x, y]) => {
-  //     newGrid[x][y] = { ...newGrid[x][y], hover: true };
-  //   });
-  //   return newGrid;
-  // }
-
-  // if (action.type === PLACE_YOUR_SHIP) {
-  //   const newGrid = [...state];
-  //   const { newCoords } = action.payload;
-  //   newCoords.forEach(([x, y]) => {
-  //     newGrid[x][y] = { ...newGrid[x][y], hover: false, status: "occupied" };
-  //   });
-  //   return newGrid;
-  // }
-
-  // if (action.type === REMOVE_YOUR_SHIP) {
-  //   const newGrid = [...state];
-  //   const { shipCoords } = action.payload;
-  //   shipCoords.forEach(([x, y]) => {
-  //     newGrid[x][y] = { ...newGrid[x][y], hover: false };
-  //   });
-  //   return newGrid;
-  // }
-
-  if (action.type === SET_ENEMY_HIT) {
-    const { cellX, cellY } = action.payload;
-    return state.map((row, y) => {
-      return row.map((cell, x) => {
-        if (cellY === x && cellX === y) {
-          return {
-            ...cell,
-            status: "hit",
-          };
-        }
-        return cell;
-      });
-    });
-  }
-
-  if (action.type === SET_ENEMY_MISS) {
-    const { cellX, cellY } = action.payload;
-    return state.map((row, y) => {
-      return row.map((cell, x) => {
-        if (cellY === x && cellX === y) {
-          return {
-            ...cell,
-            status: "miss",
-          };
-        }
-        return cell;
-      });
-    });
-  }
-  // if (action.type === SET_ENEMY_HIT) {
-  //   const newGrid = [...state];
-  //   const { cellX, cellY } = action.payload;
-  //   newGrid[cellX][cellY] = { ...newGrid[cellX][cellY], status: "hit" };
-  //   return newGrid;
-  // }
-
-  // if (action.type === SET_ENEMY_MISS) {
-  //   const newGrid = [...state];
-  //   const { cellX, cellY } = action.payload;
-  //   newGrid[cellX][cellY] = { ...newGrid[cellX][cellY], status: "miss" };
-  //   return newGrid;
-  // }
-
-  if (action.type === RESET_GAME) return [...initialState.yourGrid];
-  return state;
-};
-
-export const enemyGrid = (state = initialState.enemyGrid, action) => {
-  if (action.type === SET_ENEMY_SHIP) {
-    const { newCoords } = action.payload;
-    return state.map((row, y) => {
-      return row.map((cell, x) => {
-        if (newCoords.find(([y1, x1]) => x1 === x && y1 === y)) {
-          return {
-            ...cell,
-            status: "occupied",
-          };
-        }
-        return cell;
-      });
-    });
-  }
   if (action.type === SET_YOUR_HIT) {
     const { cellX, cellY } = action.payload;
     return state.map((row, y) => {
@@ -410,29 +352,81 @@ export const enemyGrid = (state = initialState.enemyGrid, action) => {
       });
     });
   }
-  // if (action.type === SET_ENEMY_SHIP) {
-  //   const newGrid = [...state];
-  //   const { newCoords } = action.payload;
-  //   newCoords.forEach(([x, y]) => {
-  //     newGrid[x][y] = { ...newGrid[x][y], status: "occupied" };
-  //     return newGrid;
-  //   });
-  // }
+  if (action.type === SET_YOUR_SUNK) {
+    const { cellX, cellY } = action.payload;
+    return state.map((row, y) => {
+      return row.map((cell, x) => {
+        if (cellY === x && cellX === y) {
+          return {
+            ...cell,
+            status: "sunk",
+          };
+        }
+        return cell;
+      });
+    });
+  }
+  if (action.type === RESET_GAME) return [...initialState.yourGrid];
+  return state;
+};
 
-  // if (action.type === SET_YOUR_HIT) {
-  //   const newGrid = [...state];
-  //   const { cellX, cellY } = action.payload;
-  //   newGrid[cellX][cellY] = { ...newGrid[cellX][cellY], status: "hit" };
-  //   return newGrid;
-  // }
-
-  // if (action.type === SET_YOUR_MISS) {
-  //   const newGrid = [...state];
-  //   const { cellX, cellY } = action.payload;
-  //   newGrid[cellX][cellY] = { ...newGrid[cellX][cellY], status: "miss" };
-  //   return newGrid;
-  // }
-
+export const enemyGrid = (state = initialState.enemyGrid, action) => {
+  if (action.type === SET_ENEMY_SHIP) {
+    const { newCoords } = action.payload;
+    return state.map((row, y) => {
+      return row.map((cell, x) => {
+        if (newCoords.find(([y1, x1]) => x1 === x && y1 === y)) {
+          return {
+            ...cell,
+            status: "occupied",
+          };
+        }
+        return cell;
+      });
+    });
+  }
+  if (action.type === SET_ENEMY_HIT) {
+    const { cellX, cellY } = action.payload;
+    return state.map((row, y) => {
+      return row.map((cell, x) => {
+        if (cellY === x && cellX === y) {
+          return {
+            ...cell,
+            status: "hit",
+          };
+        }
+        return cell;
+      });
+    });
+  }
+  if (action.type === SET_ENEMY_MISS) {
+    const { cellX, cellY } = action.payload;
+    return state.map((row, y) => {
+      return row.map((cell, x) => {
+        if (cellY === x && cellX === y) {
+          return {
+            ...cell,
+            status: "miss",
+          };
+        }
+        return cell;
+      });
+    });
+  }
+  if (action.type === SET_ENEMY_SUNK) {
+    const { cellX, cellY } = action.payload;
+    return state.map((row, y) => {
+      return row.map((cell, x) => {
+        if (cellY === x && cellX === y) {
+          return {
+            ...cell,
+            status: "sunk",
+          };
+        }
+        return cell;
+      });
+    });
+  }
   return state;
 };
 
@@ -441,6 +435,8 @@ export const battleship = combineReducers({
   enemyShips,
   yourGrid,
   enemyGrid,
+  yourMoves,
+  enemyMoves,
   yourCurrentShip,
   enemyCurrentShip,
   start,

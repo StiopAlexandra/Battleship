@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import EnemyShip from "./yourShip";
+import EnemyShip from "./enemyShip";
 
 const EnemyShips = () => {
   const ships = useSelector((state) => state.enemyShips);

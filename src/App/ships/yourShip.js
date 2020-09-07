@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { isSunk } from "../utils/sunk";
-const Ship = ({ ship, index }) => {
+const YourShip = ({ ship, index }) => {
   const start = useSelector((state) => state.start);
   const startBoard = useSelector((state) => state.startBoard);
   const yourCurrentShip = useSelector((state) => state.yourCurrentShip);
   let color;
-  if (isSunk({ ship }) && startBoard) color = "#c34141";
+  if (isSunk({ ship })) color = "#c34141";
   else {
-    if (index === yourCurrentShip || start === true) color = "rgb(80, 81, 82)";
+    if (index <= yourCurrentShip || start === true) color = "rgb(80, 81, 82)";
     else color = "rgb(185, 185, 185)";
   }
   return (
@@ -24,4 +24,4 @@ const Ship = ({ ship, index }) => {
   );
 };
 
-export default Ship;
+export default YourShip;

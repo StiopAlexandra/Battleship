@@ -1,14 +1,19 @@
 export const UPDATE_ENEMY_SHIP = "UPDATE_ENEMY_SHIP";
 export const UPDATE_YOUR_SHIP = "UPDATE_YOUR_SHIP";
+export const SET_ENEMY_MOVES = "SET_ENEMY_MOVES";
+export const SET_YOUR_MOVES = "SET_YOUR_MOVES";
 export const SET_YOUR_SHIP = "SET_YOUR_SHIP";
 export const PLACE_YOUR_SHIP = "PLACE_YOUR_SHIP";
 export const SET_ENEMY_SHIP = "SET_ENEMY_SHIP";
-export const SET_YOUR_POSITIONS = "SET_POSITIONS";
-export const SET_ENEMY_POSITIONS = "SET_POSITIONS";
+export const SET_YOUR_POSITIONS = "SET_YOUR_POSITIONS";
+export const SET_ENEMY_POSITIONS = "SET_ENEMY_POSITIONS";
 export const SET_YOUR_HIT = "SET_YOUR_HIT";
 export const SET_YOUR_POSITION_HIT = "SET_YOUR_POSITION_HIT";
+export const SET_ENEMY_POSITION_HIT = "SET_ENEMY_POSITION_HIT";
 export const SET_YOUR_MISS = "SET_YOUR_MISS";
 export const SET_ENEMY_HIT = "SET_ENEMY_HIT";
+export const SET_ENEMY_SUNK = "SET_ENEMY_SUNK";
+export const SET_YOUR_SUNK = "SET_YOUR_SUNK";
 export const SET_ENEMY_MISS = "SET_ENEMY_MISS";
 export const SET_TURN = "SET_TURN";
 export const SET_ROTATED = "SET_ROTATED";
@@ -46,6 +51,16 @@ export const setTurn = () => {
 export const setRotated = () => {
   return {
     type: SET_ROTATED,
+  };
+};
+export const setYourMoves = () => {
+  return {
+    type: SET_YOUR_MOVES,
+  };
+};
+export const setEnemyMoves = () => {
+  return {
+    type: SET_ENEMY_MOVES,
   };
 };
 export const updateEnemyShip = () => {
@@ -86,6 +101,33 @@ export const setYourHit = (cellX, cellY) => {
 export const setYourPositionHit = (cellX, cellY) => {
   return {
     type: SET_YOUR_POSITION_HIT,
+    payload: {
+      cellX,
+      cellY,
+    },
+  };
+};
+export const setEnemySunk = (cellX, cellY) => {
+  return {
+    type: SET_ENEMY_SUNK,
+    payload: {
+      cellX,
+      cellY,
+    },
+  };
+};
+export const setEnemyPositionHit = (cellX, cellY) => {
+  return {
+    type: SET_ENEMY_POSITION_HIT,
+    payload: {
+      cellX,
+      cellY,
+    },
+  };
+};
+export const setYourSunk = (cellX, cellY) => {
+  return {
+    type: SET_YOUR_SUNK,
     payload: {
       cellX,
       cellY,

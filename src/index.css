@@ -103,6 +103,15 @@ footer {
   margin-bottom: 20px;
 }
 
+.gameEnd {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
 .mouse {
   display: flex;
   justify-content: flex-start;
@@ -121,9 +130,15 @@ footer {
   margin: auto;
 }
 
-button {
+.button {
   margin: 25px;
   width: 65px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.playAgain {
+  width: 100px;
   height: 40px;
   border-radius: 5px;
 }
